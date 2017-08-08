@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <base target="_top">
+    <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
+    <?!= include('styles.css') ?>
+</head>
+
+<body>
+    <!--
+Main view
+
+This is the HTML that the user sees when the app launched and the sidebar is opened.
+
+`< ?!= include(X)? >` are template inserts for modularity and the entire document will be bundled together with inline CSS and JavaScript on deployment
+
+-->
+    <!--help page-->
+    <div class="slide-out transition hidden" id="js--helpPage">
+        <header class="container">
+            <h3>SpiraTeam Google Sheets Integration</h3>
+            <img src="https://files.inflectra.com/google/sheets/spira_icon.png" id="logo--top" >
+        </header>
+        <!-- help button and module for help page -->
+        <button id="js--helpClose">Close</button>
+        <?!= include('help') ?>
+    </div>
+    <!--auth page-->
+    <div class="slide-out transition open" id="js--auth">
+        <header class="container">
+            <h3>SpiraTeam Google Sheets Integration</h3>
+            <img src="https://files.inflectra.com/google/sheets/spira_icon.png" id="logo--top" >
+        </header>
+        <p>Please enter the information used to access your server.</p>
+        <div class="container" id="auth-fields">
+            <label >Spira URL:
+                <input type="text" name="URL" placeholder="https://<your-site-name>.com" class="urlInput" id="js--url" />
+            </label>
+            <label >User Name:
+                <input type="text" name="user-name" placeholder="User Name" class="userNameInput" id="js--userName" />
+            </label>
+            <label >RSS Token:
+                <input type="password" name="password" placeholder="{Your-RSS-Token}" class="passwordInput" id="js--password" />
+            </label>
+        </div>
+        <p>The RSS token can be generated from your 'My Profile' screen inside SpiraTeam. For further assistance contact your system administrator</p>
+        <footer >
+            <div class="container">
+                <button class="action" id="js--logIn">Log In</button>
+                <button  id="js--cancel">Cancel</button>
+                <button class="js--help">Help</button>
+            </div>
+
+
+
+
+            <!-- Dev mock login data button. For developement only -->  
+            <button id="dev--stubs" class=''>dev</button>
+            
+
+
+
+
+            <a href="https://www.inflectra.com" target="_blank">
+                <img src="https://files.inflectra.com/google/sheets/by_inflectra.png" id="logo--bottom" >
+            </a>
+        </footer>
+    </div>
+    <!--spinner-->
+    <div id='js--loader' class='spinner-holder hidden'>
+        <div class="loader"></div>
+    </div>
+    <!--main screen-->
+    <div class="main">
+        <header class="container">
+            <h3>SpiraTeam Google Sheets Integration</h3>
+            <img src="https://files.inflectra.com/google/sheets/spira_icon.png" id="logo--top" >
+        </header>
+        <small id="js--loggedInAs"></small>
+        <div class="container" id="buttons-top">
+            <button class="js--help">Help</button>
+            <button id="js--disconnect" >Disconnect</button>
+            <button  id="js--clear">Clear</button>
+        </div>
+        <div class="select-section">
+            <label >Projects:
+                <select  id="js--project">
+                    <!--aysnc populated -->
+                </select>
+            </label>
+        </div>
+        <div class="select-section">
+            <!-- hardcoded artifact choices, all are disabled until they're developed -->
+            <label >Artifact:
+                <select  id="js--artifact" disabled="true">
+                    <option value="Select an Artifact">Select an Artifact</option>
+                    <option value="requirements">Requirements</option>
+                    <option value="testCases" disabled="true">Test Case</option>
+                    <option value="incidents" disabled="true">Incident</option>
+                    <option value="releases">Releases</option>
+                    <option value="testRuns" disabled="true">Test Run</option>
+                    <option value="tasks">Task</option>
+                    <option value="testSteps" disabled="true">Test Step</option>
+                    <option value="testSets" disabled="true">Test Set</option>
+                </select>
+            </label>
+        </div>
+        <div class="container" id="buttons-mid">
+            <button id="js--template" disabled="true" >Load Template</button>
+            <button id="js--save" >Save</button>
+        </div>
+        <div class="row justify-content-around" id="buttons-bottom">
+            <button  id="js--import" disabled="true">Import from SpiraTeam</button>
+            <button  id="js--export" disabled="true">Send to SpiraTeam</button>
+        </div>
+        <a href="https://www.inflectra.com" target="_blank">
+            <img src="https://files.inflectra.com/google/sheets/by_inflectra.png" id="logo--bottom" >
+        </a>
+    </div>
+    <!--Jquery-->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <!--user agent modules-->
+    <?!= include('store.js') ?>
+    <?!= include('main.js') ?>
+    <?!= include('scripts.js') ?>
+
+</body>
+
+</html>
