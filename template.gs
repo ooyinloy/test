@@ -17,6 +17,7 @@ function templateLoader(data) {
     var spreadSheet = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = spreadSheet.getSheets()[0];
     var artifactData = data[data.currentArtifactName];
+    console.log ('Jimmy' + artifactData);
 
     //shorten variable
     var dropdownColumnAssignments = artifactData.dropdownColumnAssignments;
@@ -71,7 +72,6 @@ function templateLoader(data) {
 
     //main custom field function assigns type, dropdowns, datavalidation etc. See function for details.
     customContentSetter(sheet.getRange(artifactData.customCellRange), data)
-    ownerContentSetter(sheet.getRange(artifactData.customCellRange), data)
 
     //loop through dropdowns model data
     for (var i = 0; i < dropdownColumnAssignments.length; i++) {
@@ -83,6 +83,7 @@ function templateLoader(data) {
         //loop through 2D arrays and form standard array
         for (var j = 0; j < artifactData.dropdowns[name].length; j++) {
             list.push(artifactData.dropdowns[name][j][1])
+
           
         }
 
@@ -125,7 +126,7 @@ function customHeadSetter(range, data, col) {
     //loop through model custom fields data
     //take passed in range and only overwrite the fields if a value is present in the model
     for (var i = 0; i < fields.length; i++) {
-        //get cell and offset by one column very iteration
+        //get cell and offset by one column every iteration
         var cell = range.getCell(1, i + 1)
             //set heading and wrap text to fit
         cell.setValue('Custom Field ' + (i + 1) + '\n' + fields[i].Name).setWrap(true);
@@ -248,22 +249,6 @@ function customContentSetter(range, data) {
 
 }
 
-
-function ownerContentSetter  (range,data) {
-
-var owners = data.requiremets.ownerFields
-
-for  (var i=0; i < owners.length; i++)  {
-
-
-if (owners[i].OwnerPropertyTypeId == 2 || owners[i].OwnerPropertyTypeId == 3 || owners[i].OwnerPropertyTypeId == 4 ||  
-owners[i].OwnerPropertyTypeId == 5 || owners[i].OwnerPropertyTypeId == 6 || owners[i].OwnerPropertyTypeId == 7 || owners[i].OwnerPropertyTypeId == 8 )
-{ owners.push ([data.AuthorId, Data,FullName])
-
-
-}
-}
-}
 //supplies the column of the current cell
 function columnRanger(cell) {
     //get the column

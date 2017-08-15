@@ -51,8 +51,6 @@ Fetch `GET` functions
 function getProjects(currentUser) {
     var fetcherURL = '/services/v5_0/RestService.svc/projects?username=';
     return fetcher(currentUser, fetcherURL);
-    console.log (currentUser);
-    console.log('uma therman');
 }
 
 /*
@@ -62,10 +60,9 @@ When new artifacts are added new GET functions will need to be added and removed
 */
 
 //Gets User data for current user and current project users
-function getUsers(currentUser, proj, artifact) {
-    var fetcherURL = '/services/v5_0/RestService.svc/projects/' + proj + '/users?username=' + artifact +'?username=';
+function getUsers(currentUser, proj) {
+    var fetcherURL = '/services/v5_0/RestService.svc/projects/' + proj + '/users?username=';
     return fetcher(currentUser, fetcherURL);
-    console.log (artifact);
 }
 
 //Gets custom fields for current user, project and artifact.

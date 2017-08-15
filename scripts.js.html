@@ -159,7 +159,7 @@ function updateData() {
     //get all custom fields
 
     function getCustomFields() {
-   
+    alert("attempting to get custom fields")
         //call server side fetch for project custom fields
         google.script.run.withSuccessHandler(customSuccess).withFailureHandler(errorNetwork)
             .getCustoms(model.userData.currentUser, model.templateData.currentProjectNumber, model.templateData.currentArtifactId);
@@ -169,27 +169,37 @@ function updateData() {
             //assign unparsed data to data object
             //these values are parsed later depending on function needs
             model.templateData.requirements.customFields = data;
-         
-            getOwner();
+             
+             getOwner();
         }
     }
 
-    
-        function getOwner(){
+  function getOwner(){
     //call server for username values
- google.script.run.withSuccessHandler(authorSuccess).withFailureHandler(errorNetwork)
- .getUsers(model.userData.currentUser, model.templateData.currentProjectNumber, model.templateData.currentArtifactId);
+    google.script.run.withSuccessHandler(authorSuccess).withFailureHandler(errorNetwork).getUsers(model.userData.currentUser, model.templateData.currentProjectNumber);
     
-  function authorSuccess(data) {
+    function authorSuccess(data) {
     
-model.templateData.requirements.customFields = data;
-
-console.log (data);
-
-
+    var arr = [];
+    //map through Author data object
+    data.map(function(data){
+    // push data onto array
+    arr.push([data.AuthorId, data.FullName])
+    })
+    
+    //assign values to dropdown data 
+    model.templateData.requirements.dropdowns['Owner'] = arr;
+    model.templateData.tasks.dropdowns['Owner'] = arr;
+    model.templateData.requirements.dropdowns['Author'] = arr;
+    
+    
     getComponentsValues();
     
-  }
+    google.script.run.success('User data loaded');
+    
+    
+    
+    }
 
     
     
@@ -209,7 +219,6 @@ console.log (data);
             var arr = [];
             //map through component data object
             data.map(function(data) {
-    
                 //push id and name into array
                 arr.push([data.ComponentId, data.FullName])
             })
@@ -218,6 +227,7 @@ console.log (data);
 
             //assign values to dropdown data
             model.templateData.requirements.dropdowns['Components'] = arr;
+            console.log ( arr);
 
             getReleasesValues();
         }
@@ -238,10 +248,13 @@ console.log (data);
 
             //assign collected data to model
             model.templateData.requirements.releases = arr;
+         
 
             //assign values to model drop down data
             model.templateData.requirements.dropdowns['Version Number'] = model.templateData.requirements.releases;
-
+            model.templateData.tasks.dropdowns['Version Number'] = model.templateData.requirements.releases;
+         
+         
             //call main template function
             getTemplate();
 
